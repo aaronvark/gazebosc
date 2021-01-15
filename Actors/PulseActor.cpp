@@ -37,11 +37,9 @@ zmsg_t * Pulse::handleTimer( sphactor_event_t *ev ) {
     zosc_t * osc = zosc_create("/pulse", "s", "PULSE");
 
     zmsg_t *msg = zmsg_new();
-    zframe_t *frame = zframe_new(zosc_data(osc), zosc_size(osc));
-    zmsg_append(msg, &frame);
+    zmsg_add(msg, zosc_packx(&osc));
 
     // clean up
-    zframe_destroy(&frame);
     zmsg_destroy(&ev->msg);
 
     // publish new msg

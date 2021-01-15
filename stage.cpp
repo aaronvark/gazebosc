@@ -559,7 +559,7 @@ bool Load( const char* configFile ) {
         delete[] input;
     }
 
-    free(root);
+    delete root;
 
     return true;
 }

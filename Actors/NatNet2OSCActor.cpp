@@ -78,8 +78,7 @@ NatNet2OSC::handleMsg( sphactor_event_t *ev ) {
             if ( sendMarkers ) {
                 for (int i = 0; i < markers.size(); i++) {
                     zosc_t *osc = zosc_create("/marker", "ifff", i, markers[i][0], markers[i][1], markers[i][2]);
-                    zmsg_add(oscMsg, zosc_pack(osc));
-                    //TODO: clean up osc* ?
+                    zmsg_add(oscMsg, zosc_packx(&osc));
                 }
             }
 
@@ -111,31 +110,37 @@ NatNet2OSC::handleMsg( sphactor_event_t *ev ) {
             if ( streq(cmd, "SET MARKERS") ) {
                 char * value = zmsg_popstr(ev->msg);
                 sendMarkers = streq( value, "True");
+                zstr_free(&value);
                 //zsys_info("Got: %s, set to %s", value, sendMarkers ? "True" : "False");
             }
             else if ( streq(cmd, "SET RIGIDBODIES") ) {
                 char * value = zmsg_popstr(ev->msg);
                 sendRigidbodies = streq( value, "True");
+                zstr_free(&value);
                 //zsys_info("Got: %s, set to %s", value, sendRigidbodies ? "True" : "False");
             }
             else if ( streq(cmd, "SET SKELETONS") ) {
                 char * value = zmsg_popstr(ev->msg);
                 sendSkeletons = streq( value, "True");
+                zstr_free(&value);
                 //zsys_info("Got: %s, set to %s", value, sendSkeletons ? "True" : "False");
             }
             else if ( streq(cmd, "SET VELOCITIES") ) {
                 char * value = zmsg_popstr(ev->msg);
                 sendVelocities = streq( value, "True");
+                zstr_free(&value);
                 //zsys_info("Got: %s, set to %s", value, sendVelocities ? "True" : "False");
             }
             else if ( streq(cmd, "SET HIERARCHY") ) {
                 char * value = zmsg_popstr(ev->msg);
                 sendHierarchy = streq( value, "True");
+                zstr_free(&value);
                 //zsys_info("Got: %s, set to %s", value, sendHierarchy ? "True" : "False");
             }
             else if ( streq(cmd, "SET SKELETONDEF") ) {
                 char * value = zmsg_popstr(ev->msg);
                 sendSkeletonDefinitions = streq( value, "True");
+                zstr_free(&value);
                 //zsys_info("Got: %s, set to %s", value, sendSkeletonDefinitions ? "True" : "False");
             }
 
@@ -273,7 +278,7 @@ void NatNet2OSC::addRigidbodies(zmsg_t *zmsg)
 
         zosc_append(oscMsg, "i", (RB.isActive() ? 1 : 0));
 
-        zmsg_add(zmsg, zosc_pack(oscMsg));
+        zmsg_add(zmsg, zosc_packx(&oscMsg));
     }
 }
 
@@ -323,7 +328,7 @@ void NatNet2OSC::addSkeletons(zmsg_t *zmsg)
                     );
                 }
 
-                zmsg_add(zmsg, zosc_pack(oscMsg));
+                zmsg_add(zmsg, zosc_packx(&oscMsg));
             }
         }
         else
@@ -369,7 +374,7 @@ void NatNet2OSC::addSkeletons(zmsg_t *zmsg)
                 }
             }
 
-            zmsg_add(zmsg, zosc_pack(oscMsg));
+            zmsg_add(zmsg, zosc_packx(&oscMsg));
         }
     }
 }
