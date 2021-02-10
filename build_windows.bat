@@ -11,9 +11,14 @@ cmake .. -DBUILD_STATIC=OFF -DBUILD_SHARED=ON -DZMQ_BUILD_TESTS=OFF -DCMAKE_INST
 cmake --build . --config Debug --target install
 
 set GZB_BUILDDIR="%PROJECT_ROOT%\build"
+
 cd %PROJECT_ROOT%
 git submodule update --init --recursive
 md "%GZB_BUILDDIR%"
 cd "%GZB_BUILDDIR%"
 cmake .. -DCMAKE_PREFIX_PATH="%cd%/tmp/ci_build" -DCMAKE_INSTALL_PREFIX="%INSTALL_PREFIX%"
 cmake --build . --config Debug --target install
+
+copy "%LIBZMQ_BUILDDIR%\bin\Debug\*.dll" "%GZB_BUILDDIR%\bin\Debug\*.dll"
+
+cd %PROJECT_ROOT%
