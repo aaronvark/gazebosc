@@ -271,7 +271,8 @@ void NatNet2OSC::addRigidbodies(zmsg_t *zmsg)
                         angularVelocity.x * 1000, angularVelocity.y * 1000, angularVelocity.z * 1000 );
         }
 
-        zosc_append(oscMsg, "i", (RB.isActive() ? 1 : 0));
+        // this value seems to fall off?
+        zosc_append(oscMsg, "ii", (RB.isActive() ? 1 : 0), (RB.isActive() ? 1 : 0));
 
         zmsg_add(zmsg, zosc_pack(oscMsg));
     }
