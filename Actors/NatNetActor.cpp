@@ -42,7 +42,7 @@ zmsg_t * NatNet::handleMsg( sphactor_event_t * ev ) {
         //              example: "udp://192.168.10.124;..."
         std::string url = "udp://" + MULTICAST_ADDRESS + ":" + PORT_DATA_STR;
         DataSocket = zsock_new(ZMQ_DGRAM);
-        //zsock_connect(DataSocket, "%s", url.c_str());
+        //zsock_connect(DataSocket, "%s", url.c_str());"
         zsock_bind(DataSocket, "%s", url.c_str());
         assert( DataSocket );
         dataFD = zsock_fd(DataSocket);
@@ -785,8 +785,8 @@ void NatNet::Unpack( char ** pData ) {
                 //zsys_info("Z Offset : %3.2f\n", zoffset);
 
                 description.offset[0] = xoffset;
-                description.offset[1] = xoffset;
-                description.offset[2] = xoffset;
+                description.offset[1] = yoffset;
+                description.offset[2] = zoffset;
 
                 tmp_rigidbody_descs.push_back(description);
             }
