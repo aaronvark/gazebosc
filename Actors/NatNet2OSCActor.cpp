@@ -316,6 +316,9 @@ void NatNet2OSC::addSkeletons(zmsg_t *zmsg)
                 //needed for skeleton retargeting
                 if ( sendSkeletonDefinitions )
                 {
+                    if ( rbd[i].parent_id == 4 ) {
+                        zsys_info("values: %d, %d, %d", rbd[i].offset.x, rbd[i].offset.y, rbd[i].offset.z);
+                    }
                     zosc_append(oscMsg, "ifff",
                                 rbd[i].parent_id,
                                 rbd[i].offset.x,
